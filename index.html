@@ -1,8 +1,260 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head><meta charset="UTF-8"><title>TP3-FAHDKRACHEL</title></head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TP3 – Fahd Krachel</title>
+  <style>
+    :root {
+      --paper: #f2f5f7;
+      --panel: #ffffff;
+      --ink: #10253a;
+      --muted: #51657a;
+      --line: #d3dde6;
+      --accent: #0b6e8a;
+      --live: #1a8f4e;
+      color-scheme: light dark;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --paper: #0d1822;
+        --panel: #13222f;
+        --ink: #e6eef5;
+        --muted: #9db1c3;
+        --line: #26394a;
+        --accent: #58b6d1;
+        --live: #4cc283;
+      }
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      font-size: 1.0625rem;
+      line-height: 1.6;
+    }
+
+    main {
+      max-width: 52rem;
+      margin: 0 auto;
+      padding: 4rem 1.5rem 3rem;
+    }
+
+    /* En-tête */
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin: 0 0 1.5rem;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+    .status::before {
+      content: "";
+      width: 0.7rem;
+      height: 0.7rem;
+      border-radius: 50%;
+      background: var(--live);
+      animation: pulse 2.4s ease-out infinite;
+    }
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--live) 55%, transparent); }
+      70%  { box-shadow: 0 0 0 0.7rem transparent; }
+      100% { box-shadow: 0 0 0 0 transparent; }
+    }
+
+    h1 {
+      margin: 0 0 1rem;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2.2rem, 6vw, 3.6rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+    .lead {
+      max-width: 38rem;
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.15rem;
+    }
+
+    h2 {
+      margin: 3.5rem 0 1.25rem;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.5rem;
+      line-height: 1.25;
+    }
+
+    /* Pipeline */
+    .pipeline {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.5rem;
+    }
+    .pipeline li {
+      position: relative;
+      padding-top: 3.1rem;
+      padding-right: 0.5rem;
+    }
+    .pipeline .marker {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 2.25rem;
+      height: 2.25rem;
+      display: grid;
+      place-items: center;
+      border: 2px solid var(--accent);
+      border-radius: 50%;
+      background: var(--paper);
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+    .pipeline li:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      top: 1.1rem;
+      left: 2.75rem;
+      right: 0.25rem;
+      height: 2px;
+      background: var(--line);
+    }
+    .pipeline li:last-child .marker {
+      border-color: var(--live);
+      background: var(--live);
+      color: #fff;
+    }
+    .pipeline strong {
+      display: block;
+      font-size: 1rem;
+      line-height: 1.3;
+    }
+    .pipeline span.desc {
+      display: block;
+      margin-top: 0.25rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    /* Détails techniques */
+    .panel {
+      margin: 0;
+      padding: 0.5rem 1.5rem;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 0.75rem;
+    }
+    .panel div {
+      display: grid;
+      grid-template-columns: 11rem 1fr;
+      gap: 1rem;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .panel div:last-child { border-bottom: 0; }
+    .panel dt { color: var(--muted); }
+    .panel dd { margin: 0; font-weight: 600; }
+    code {
+      font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+      font-size: 0.92em;
+      font-weight: 500;
+    }
+
+    footer {
+      margin-top: 4rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    footer p { margin: 0.15rem 0; }
+
+    /* Mobile */
+    @media (max-width: 40rem) {
+      main { padding-top: 2.5rem; }
+      .pipeline { grid-template-columns: 1fr; gap: 0; }
+      .pipeline li {
+        padding: 0 0 1.5rem 3.25rem;
+        min-height: 3.5rem;
+      }
+      .pipeline li:not(:last-child)::after {
+        top: 2.4rem;
+        left: 1.05rem;
+        right: auto;
+        bottom: 0.15rem;
+        width: 2px;
+        height: auto;
+      }
+      .panel div { grid-template-columns: 1fr; gap: 0.1rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .status::before { animation: none; }
+    }
+  </style>
+</head>
 <body>
-  <h1>TP3 : déploiement CI/CD</h1>
-  <p>Application déployée automatiquement par GitHub Actions sur Cloud.</p>
+  <main>
+    <p class="status">Application en ligne</p>
+    <h1>TP3 – Fahd Krachel</h1>
+    <p class="lead">
+      Cette page est servie par un conteneur Docker sur une machine virtuelle cloud.
+      Elle a été construite et déployée automatiquement par GitHub Actions
+      après un simple <code>git push</code>.
+    </p>
+
+    <h2>Du commit à la mise en ligne</h2>
+    <ol class="pipeline">
+      <li>
+        <span class="marker">1</span>
+        <strong>Push</strong>
+        <span class="desc">Le code est envoyé sur la branche main de GitHub.</span>
+      </li>
+      <li>
+        <span class="marker">2</span>
+        <strong>Build</strong>
+        <span class="desc">Le runner construit l’image Docker.</span>
+      </li>
+      <li>
+        <span class="marker">3</span>
+        <strong>Registre</strong>
+        <span class="desc">L’image est publiée dans le registre local.</span>
+      </li>
+      <li>
+        <span class="marker">4</span>
+        <strong>Déploiement</strong>
+        <span class="desc">Le conteneur remplace l’ancienne version.</span>
+      </li>
+      <li>
+        <span class="marker">5</span>
+        <strong>En ligne</strong>
+        <span class="desc">L’application répond sur le port 80.</span>
+      </li>
+    </ol>
+
+    <h2>Infrastructure</h2>
+    <dl class="panel">
+      <div><dt>Machine</dt><dd>VM Ubuntu 24.04 fournie par l’école</dd></div>
+      <div><dt>Conteneur</dt><dd><code>nginx:alpine</code>, port 80</dd></div>
+      <div><dt>Registre d’images</dt><dd>Docker <code>registry:2</code> sur la VM</dd></div>
+      <div><dt>Intégration continue</dt><dd>GitHub Actions, runner auto-hébergé</dd></div>
+      <div><dt>Déclencheur</dt><dd>Push sur la branche <code>main</code></dd></div>
+    </dl>
+
+    <footer>
+      <p>Réalisé par Fahd Krachel</p>
+      <p>UH2C / ENSET, Ingénierie des infrastructures Big Data et Cloud</p>
+      <p>Encadrant : Pr. Kamal EL GUEMMAT, année universitaire 2026/2027</p>
+    </footer>
+  </main>
 </body>
 </html>
