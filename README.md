@@ -11,7 +11,7 @@ Projet réalisé dans le cadre du TP3 du module *Ingénierie des Infrastructures
 
 ## Architecture
 
-![Architecture globale](docs/architecture.png)
+![Architecture globale](architecture.png)
 
 ```
 Développeur ──git push──▶ GitHub ──déclenche──▶ Runner (sur la VM)
