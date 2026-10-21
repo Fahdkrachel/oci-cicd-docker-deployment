@@ -1,0 +1,32 @@
+name: TP3-FAHD-KRACHEL
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build de l'image Docker
+        run: |
+          docker build -t localhost:5000/tp3-webapp:${{ github.sha }} \
+                       -t localhost:5000/tp3-webapp:latest .
+
+      - name: Push vers le registre local
+        run: |
+          docker push localhost:5000/tp3-webapp:${{ github.sha }}
+          docker push localhost:5000/tp3-webapp:latest
+
+  deploy:
+    needs: build
+    runs-on: self-hosted
+    steps:
+      - name: Déploiement du conteneur
+        run: |
+          docker pull localhost:5000/tp3-webapp:latest
+          docker rm -f webapp || true
+          docker run -d --name webapp --restart unless-stopped -p 80:80 localhost:5000/tp3-webapp:latest
